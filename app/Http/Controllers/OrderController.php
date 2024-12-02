@@ -101,8 +101,9 @@ class OrderController extends Controller
         }, 0);
         $finalPrice = round($subTotal * 1.17, 2);
 
-        // Generate a purely numeric order ID
-        $orderId = random_int(100000, 999999); // Generates a 6-digit random number
+        // Generate the next sequential order ID
+        $lastOrder = DB::table('ongoing_orders')->orderBy('order_id', 'desc')->first();
+        $orderId = $lastOrder ? $lastOrder->order_id + 1 : 1;
 
         return view('customer_pay', [
             'cartItems' => $cartItems,
@@ -110,12 +111,32 @@ class OrderController extends Controller
             'finalPrice' => $finalPrice,
             'customerName' => $customerName,
             'tableNumber' => $tableNumber,
-            'email' => $email, // Pass email to the view
+            'email' => $email,
             'orderId' => $orderId,
         ]);
     }
 
+    public function resetAndDeleteOrders()
+    {
+        // Delete all records from the ongoing_orders table
+        OngoingOrder::truncate();
 
+        return redirect()->route('admin.ongoingOrders')->with('success', 'All orders have been deleted, and Order IDs reset!');
+    }
+
+    public function resetOrderIds()
+    {
+        $ongoingOrders = OngoingOrder::all();
+
+        DB::transaction(function () use ($ongoingOrders) {
+            foreach ($ongoingOrders as $index => $order) {
+                $order->order_id = $index + 1; // Reset order_id sequentially starting from 1
+                $order->save();
+            }
+        });
+
+        return redirect()->route('admin.ongoingOrders')->with('success', 'Order IDs have been reset successfully!');
+    }
 
     public function submitOrder(Request $request)
     {
