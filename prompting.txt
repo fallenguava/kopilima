@@ -1,0 +1,41 @@
+I have a laravel 11 project folder. I want to make a web where for a restaurant called kopi lima. here is how I want to make it. later on, customer can come and scan barcode to the link on their table, then they can choose the menu in the web, then they can checkout. after finishing the transaction, the orders will be added to the ongoing_orders table.
+
+configurations and info:
+- I will be using layouting, section, extends in every page with navbar and footer.
+- I will be using bootstrap 5
+- The page will be responsive for mobile and desktop (mobile is preferrabbly focused)
+- There is only guest user (customer) and admin to manage the menus
+- Menus are photo of the menu, name, description and price
+- will be using mysql for database. name : db_kopilima
+- A menu CRUD system page for admins, they can upload photo of the menu, name, description and price where it will actively connect to the database
+- photo will be stored locally in a certain folders of uploaded images with name based on the menu id (you may think better way to make that happen)
+- price will be using Rupiah (Rp. )
+- will be using Poppins font family for good design
+- make good UI UX for better user experiences
+
+our naming system for pages : begin with "customer_" for customer views and begin with "admin_" for admin views. begin with "layout_" for layouts.
+
+1. layout_navbar.blade.php
+here is the layout for navbar. with "Home", "Contact Us", "KopiLima" in the navbar for further links later.
+
+2. layout_footer.blade.php
+the footer will contain the same with navbar + "Web Servive Provider" for later links.
+
+3. layout_navbar_cart.blade.php
+a navbar where it contains a cart logo on the right side and "KopiLima" text on the middle
+
+4. customer_menu.blade.php
+this page will shows all the menu with sections of each menu category. the sections will be Coffee, Snacks, Fries, Rice, Dessert and Drinks. in the upper part of the page, there will be a floating container to help navigating through sections. in every menu item, there will be a good designed container to show the Item, it will show the photo, name with bold text, and the price. under the price theres a "+" button to add it to cart and when an Item "+" button is clicked, it changes into quantity chose button and "x" button to cancel it or to delete it from the cart. the quantity chose button will be connected to the cart for each item chosen. if clicks the "x" button, it cancels and back to "+" button.
+
+4. customer_cart.blade.php
+this page shows all the chosen items in the menu also with quantity chooser button and and "x" button to cancel it. when it cancels with the "x" button, it will gone from the cart page. there is a review for section below the items list. the review section will show Sub Total price (sum of all item price also calculated it quantity), and Final Price (Sub Total + 17%). below it there are two text box to input the name and it is a customer_name and to input Table number, it is a table_number below it will be a button "Pay", then proceed to customer_pay.blade.php with final price calculated.
+
+5. customer_pay.blade.php
+this page will show an image of QR (my image) later with name qrispayment.jpeg. and below it the customer_name and table_number will be shown from the previous cart page submission. below it will show the Final price from the previously cart page. below it a button of "Finished" to submit order_id(generated which consists of 5 digits incrementally), all_items (strings of name of the items), final_price, customer_name, table_number into ongoing_orders table in database and redirect to customer_menu.blade.php
+
+6. admin_ongoing_orders.blade.php
+this page will show all active orders from the ongoing_orders table. this page will shows a table format of the orders. it shows order_id, the all_items (strings of name of the items), final_price, customer_name, table_number with action buttons next to it of "Finish" and "Cancel". everytime "Finish" buttons clicked, it will create the same data to finished_orders table, and delete it in the ongoing_orders table. everytime "Cancel" button is clicked, it will create the same data into canceled_orders table and delete it in the ongoing_orders table. below the table, it will show Gross Income where it is the sum of final price of all orders in the finished_orders table.
+
+please note that this web system is for guests which makes every guests will open their own and do not have direct access to the databases. I don't know how to configure the memory for all the guest users and I think you can help with that. 
+
+Help me with the UI UX for good designs, if I have revisions I will tell you later. please help me with the code and steps to do this from a scratch laravel project folder.
