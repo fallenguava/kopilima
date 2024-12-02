@@ -190,11 +190,11 @@ class OrderController extends Controller
 
         // Insert the order data into the finished_orders table
         FinishedOrder::create([
-            'order_id' => $order->order_id,
+            'order_id' => $order->order_id, // Store the original order_id
             'all_items' => $order->all_items,
             'final_price' => $order->final_price,
             'customer_name' => $order->customer_name,
-            'email' => $order->email,
+            'email' => $order->email, // Ensure the email is passed here
             'table_number' => $order->table_number,
         ]);
 
