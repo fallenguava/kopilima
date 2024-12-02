@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
@@ -17,6 +18,8 @@ Route::get('/admin/ongoing-orders', [OrderController::class, 'viewOngoingOrders'
 Route::post('/admin/order/finish/{id}', [OrderController::class, 'finishOrder'])->name('admin.finishOrder');
 Route::post('/admin/order/cancel/{id}', [OrderController::class, 'cancelOrder'])->name('admin.cancelOrder');
 
+// Reset and delete orders route
+Route::post('/admin/reset-orders', [OrderController::class, 'resetAndDeleteOrders'])->name('admin.resetAndDeleteOrders');
 
 Route::prefix('admin/menu')->group(function () {
     Route::get('/', [MenuController::class, 'index'])->name('admin.menu.index');
