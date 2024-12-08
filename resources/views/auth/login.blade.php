@@ -9,66 +9,68 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #ffe9e6, #ffecd2);
+            background: linear-gradient(to bottom right, #03045e, #90e0ef);
+            color: #fff;
             margin: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
         .navbar {
-            background: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #0077b6;
             padding: 1rem 2rem;
             width: 100%;
         }
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
-            color: #ff6f61 !important;
-            text-transform: uppercase;
+            color: #caf0f8 !important;
         }
         .navbar-nav .nav-link {
-            color: #4a4a4a;
+            color: #caf0f8;
             font-weight: 500;
             margin: 0 0.5rem;
-            transition: color 0.3s ease-in-out;
         }
         .navbar-nav .nav-link:hover {
-            color: #ff6f61;
+            color: #00b4d8;
         }
         .login-container {
             flex-grow: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
         .card {
             max-width: 400px;
             width: 100%;
+            background: #fff;
             border-radius: 10px;
+            padding: 2rem;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
         }
         .card h3 {
             font-weight: 600;
-            color: #4a4a4a;
+            color: #03045e;
+            text-align: center;
         }
         .btn-primary {
-            background-color: #ff6f61;
+            background-color: #0077b6;
             border: none;
         }
         .btn-primary:hover {
-            background-color: #e65b50;
+            background-color: #00b4d8;
         }
         footer {
-            background: #4a4a4a;
-            color: #fff;
+            background: #03045e;
+            color: #caf0f8;
             text-align: center;
             padding: 1rem 0;
             font-size: 0.9rem;
             width: 100%;
         }
         footer a {
-            color: #ff6f61;
+            color: #00b4d8;
             text-decoration: none;
         }
         footer a:hover {
@@ -99,8 +101,8 @@
 </nav>
 
 <div class="login-container">
-    <div class="card p-5">
-        <h3 class="text-center mb-4">Login</h3>
+    <div class="card">
+        <h3 class="mb-4">Login</h3>
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
@@ -116,16 +118,14 @@
         <form method="POST" action="{{ route('login.process') }}">
             @csrf
             <div class="form-group mb-3">
-                <label for="email">Email</label>
+                <label for="email" class="form-label">Email</label>
                 <input type="email" id="email" name="email" class="form-control" required autofocus>
             </div>
             <div class="form-group mb-3">
-                <label for="password">Password</label>
+                <label for="password" class="form-label">Password</label>
                 <input type="password" id="password" name="password" class="form-control" required>
             </div>
-            <div class="form-group mb-3">
-                <button type="submit" class="btn btn-primary w-100">Login</button>
-            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
     </div>
 </div>
