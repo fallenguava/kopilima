@@ -7,6 +7,8 @@ use App\Models\Menu;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Log;
+
 
 
 class MenuController extends Controller
@@ -41,7 +43,6 @@ class MenuController extends Controller
             'category' => 'required|string|max:255'
         ]);
 
-        // Create a new menu item
         $menu = new Menu();
         $menu->name = $request->input('name');
         $menu->description = $request->input('description');
@@ -49,14 +50,10 @@ class MenuController extends Controller
         $menu->category = $request->input('category');
         $menu->save();
 
-        // Handle photo upload and resizing
-        if ($request->hasFile('photo')) {
+        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
             $fileName = Str::slug($menu->name) . '_MenuImage.' . $request->file('photo')->getClientOriginalExtension();
 
-            // Instantiate ImageManager with 'gd' driver
             $imageManager = new ImageManager(['driver' => 'gd']);
-
-            // Resize and save the image
             $image = $imageManager->make($request->file('photo')->getRealPath())
                 ->resize(1920, 1080, function ($constraint) {
                     $constraint->aspectRatio();
@@ -64,10 +61,18 @@ class MenuController extends Controller
                 })
                 ->encode();
 
-            Storage::put('public/uploads/menu_image/' . $fileName, $image);
+            $saved = Storage::put('uploads/menu_image/' . $fileName, $image);
+
+            if (!$saved) {
+                Log::error('Failed to save file: ' . $fileName);
+            } else {
+                Log::info('File saved successfully: ' . $fileName);
+            }
 
             $menu->photo = $fileName;
             $menu->save();
+        } else {
+            Log::error('Invalid or missing file upload.');
         }
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu item created successfully.');

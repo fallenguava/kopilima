@@ -6,7 +6,7 @@
 
     <!-- QR Code for Payment -->
     <div class="text-center mb-4">
-        <img src="{{ asset('images/qrispayment.jpeg') }}" alt="QR Code for Payment" class="img-fluid" style="max-width: 250px;">
+        <img src="{{ asset('fake.png') }}" alt="QR Code for Payment" class="img-fluid" style="max-width: 250px;">
     </div>
 
     <!-- Customer Details and Final Price -->

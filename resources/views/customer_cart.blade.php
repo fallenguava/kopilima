@@ -11,7 +11,7 @@
                 @if(isset($item['id']))
                     <div class="row cart-item mb-3 align-items-center" id="cart-item-{{ $item['id'] }}">
                         <div class="col-3">
-                            <img src="{{ asset('storage/public/uploads/menu_image/' . ($item['photo'] ?? 'default.jpg')) }}" alt="{{ $item['name'] }}" class="img-fluid rounded">
+                            <img src="{{ asset('storage/uploads/menu_image/' . ($item['photo'] ?? 'default.jpg')) }}" alt="{{ $item['name'] }}" class="img-fluid rounded">
                         </div>
                         <div class="col-6">
                             <h5>{{ $item['name'] }}</h5>
