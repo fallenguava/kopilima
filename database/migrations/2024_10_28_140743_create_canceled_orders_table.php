@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('canceled_orders', function (Blueprint $table) {
-            $table->id('order_id');
+            $table->id(); // Auto-increment primary key
+            $table->unsignedBigInteger('order_id'); // Keep order_id as a regular column
             $table->text('all_items');
             $table->decimal('final_price', 8, 2);
             $table->string('customer_name');
