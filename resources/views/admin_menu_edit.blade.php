@@ -38,7 +38,7 @@
             <label for="photo" class="form-label">Photo</label>
             <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
             @if($menu->photo)
-                <img src="{{ asset('storage/menu_images/' . $menu->photo) }}" alt="{{ $menu->name }}" class="img-fluid mt-3" style="max-width: 150px;">
+                <img src="{{ asset('storage/public/uploads/menu_image/' . $menu->photo) }}" alt="{{ $menu->name }}" class="img-fluid mt-3" style="max-width: 150px;">
             @endif
         </div>
         <button type="submit" class="btn btn-primary w-100">Update Menu Item</button>

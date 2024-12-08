@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+
 
 class MenuController extends Controller
 {
@@ -47,10 +49,23 @@ class MenuController extends Controller
         $menu->category = $request->input('category');
         $menu->save();
 
-        // Handle photo upload
+        // Handle photo upload and resizing
         if ($request->hasFile('photo')) {
-            $fileName = $menu->id . '.' . $request->file('photo')->getClientOriginalExtension();
-            $request->file('photo')->storeAs('public/menu_images', $fileName);
+            $fileName = Str::slug($menu->name) . '_MenuImage.' . $request->file('photo')->getClientOriginalExtension();
+
+            // Instantiate ImageManager with 'gd' driver
+            $imageManager = new ImageManager(['driver' => 'gd']);
+
+            // Resize and save the image
+            $image = $imageManager->make($request->file('photo')->getRealPath())
+                ->resize(1920, 1080, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->encode();
+
+            Storage::put('public/uploads/menu_image/' . $fileName, $image);
+
             $menu->photo = $fileName;
             $menu->save();
         }
@@ -70,6 +85,7 @@ class MenuController extends Controller
     /**
      * Update the specified menu item in the database.
      */
+    
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -86,15 +102,28 @@ class MenuController extends Controller
         $menu->price = $request->input('price');
         $menu->category = $request->input('category');
 
-        // Update photo if a new one is uploaded
+        // Handle photo upload and resizing
         if ($request->hasFile('photo')) {
             // Delete the old photo
             if ($menu->photo) {
-                Storage::delete('public/menu_images/' . $menu->photo);
+                Storage::delete('public/uploads/menu_image/' . $menu->photo);
             }
 
-            $fileName = $menu->id . '.' . $request->file('photo')->getClientOriginalExtension();
-            $path = $request->file('photo')->storeAs('public/menu_images', $fileName);
+            $fileName = Str::slug($menu->name) . '_MenuImage.' . $request->file('photo')->getClientOriginalExtension();
+
+            // Instantiate ImageManager with 'gd' driver
+            $imageManager = new ImageManager(['driver' => 'gd']);
+
+            // Resize and save the new image
+            $image = $imageManager->make($request->file('photo')->getRealPath())
+                ->resize(1920, 1080, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->encode();
+
+            Storage::put('public/uploads/menu_image/' . $fileName, $image);
+
             $menu->photo = $fileName;
         }
 
@@ -102,6 +131,7 @@ class MenuController extends Controller
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu item updated successfully.');
     }
+
 
     /**
      * Remove the specified menu item from the database.
