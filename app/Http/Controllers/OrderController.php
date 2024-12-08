@@ -84,7 +84,7 @@ class OrderController extends Controller
 
         Session::put('customer_name', $customerName);
         Session::put('table_number', $tableNumber);
-        Session::put('email', $email); // Store email in session
+        Session::put('email', $email); 
 
         return redirect()->route('cart.checkout');
     }
