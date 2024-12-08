@@ -31,7 +31,7 @@
         <tbody>
             @foreach($menuItems as $item)
             <tr>
-                <td><img src="{{ asset('storage/public/uploads/menu_image/' . $item->photo) }}" alt="{{ $item->name }}" style="width: 100px; height: auto;"></td>                <td>{{ $item->name }}</td>
+                <td><img src="{{ asset('storage/uploads/menu_image/' . $item->photo) }}" alt="{{ $item->name }}" style="width: 100px; height: auto;"></td>                <td>{{ $item->name }}</td>
                 <td>{{ $item->description }}</td>
                 <td>{{ number_format($item->price, 0, ',', '.') }}</td>
                 <td>{{ $item->category }}</td>
