@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kopi Lima</title>
+    <title>Login - Kopi Lima</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(to bottom, #ffe9e6, #ffecd2);
-            min-height: 100vh;
             margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .navbar {
             background: #ffffff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 1rem 2rem;
+            width: 100%;
         }
         .navbar-brand {
             font-weight: 700;
@@ -33,8 +36,28 @@
         .navbar-nav .nav-link:hover {
             color: #ff6f61;
         }
-        main {
-            padding: 2rem;
+        .login-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        .card h3 {
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+        .btn-primary {
+            background-color: #ff6f61;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #e65b50;
         }
         footer {
             background: #4a4a4a;
@@ -42,6 +65,7 @@
             text-align: center;
             padding: 1rem 0;
             font-size: 0.9rem;
+            width: 100%;
         }
         footer a {
             color: #ff6f61;
@@ -52,7 +76,7 @@
         }
     </style>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body>
 
 <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">Kopi Lima</a>
@@ -74,11 +98,41 @@
     </div>
 </nav>
 
-<main class="flex-grow-1">
-    @yield('content')
-</main>
+<div class="login-container">
+    <div class="card p-5">
+        <h3 class="text-center mb-4">Login</h3>
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form method="POST" action="{{ route('login.process') }}">
+            @csrf
+            <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" required autofocus>
+            </div>
+            <div class="form-group mb-3">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <div class="form-group mb-3">
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-@include('layouts.layout_footer')
+<footer>
+    &copy; 2024 Kopi Lima. All Rights Reserved.
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
