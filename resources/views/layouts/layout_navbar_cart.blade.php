@@ -112,7 +112,7 @@
 </main>
 
 <footer>
-    &copy; 2024 Kopi Lima. All Rights Reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Use</a>
+    &copy; 2024 Kopi Lima. All Rights Reserved. | <a href="/privacy">Privacy Policy</a> | <a href="{{ route('show.aboutus') }}">About KopiLima</a>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

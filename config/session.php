@@ -32,9 +32,11 @@ return [
     |
     */
 
-    'lifetime' => 5,
+    'lifetime' => 120, // Adjust if sessions are too short
+    'expire_on_close' => false,
 
-    'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),
+
+    // 'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),
 
     /*
     |--------------------------------------------------------------------------

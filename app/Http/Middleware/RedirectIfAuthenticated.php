@@ -16,14 +16,13 @@ class RedirectIfAuthenticated
      * @param  string|null  ...$guards
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, ...$guards)
+    public function handle($request, Closure $next, ...$guards)
     {
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect('/auth'); // Change '/home' to your default authenticated route
-            }
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
         }
 
         return $next($request);
     }
+
 }
