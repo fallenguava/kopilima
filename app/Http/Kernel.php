@@ -51,5 +51,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-    ];
+        'auth.timeout' => \App\Http\Middleware\SessionTimeout::class,
+    ];         
 }
