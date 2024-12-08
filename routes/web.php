@@ -8,6 +8,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/phpinfo', function () {
+    return view('phpinfo');
+});
+
+
 Route::get('/menu', [OrderController::class, 'showMenu'])->name('customer.menu');
 Route::post('/cart/add', [OrderController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [OrderController::class, 'viewCart'])->name('cart.view');
