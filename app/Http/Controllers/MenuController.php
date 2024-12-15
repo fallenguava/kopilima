@@ -13,13 +13,19 @@ use Illuminate\Support\Facades\Log;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a list of all menu items for the admin.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $menuItems = Menu::all();
-        return view('admin_menu_list', compact('menuItems'));
+        $sortField = $request->input('sort', 'name'); // Default sort by name
+        $sortDirection = $request->input('direction', 'asc'); // Default direction is ascending
+        $perPage = $request->input('per_page', 10); // Default items per page is 10
+
+        if ($perPage === 'all') {
+            $menuItems = Menu::orderBy($sortField, $sortDirection)->get();
+        } else {
+            $menuItems = Menu::orderBy($sortField, $sortDirection)->paginate((int) $perPage);
+        }
+
+        return view('admin_menu_list', compact('menuItems', 'sortField', 'sortDirection', 'perPage'));
     }
 
     /**

@@ -49,7 +49,8 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+Route::get('/', [OrderController::class, 'showMenu'])->name('customer.menu2');
